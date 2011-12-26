@@ -27,10 +27,16 @@ class Tween(object):
 
         # publisher
         if len(request.path_info.split(self.trigger)) > 1:
+            path_info = request.path_info
             ignored = request.path_info_pop()
             while ignored != self.publisher_signature:
                 ignored = request.path_info_pop()
-            return request.get_response(self.publisher)
+            response = request.get_response(self.publisher)
+            # forward to handler if the resource could not be found
+            if response.status_int == 404:
+                request.path_info = path_info
+                return self.handler(request)
+            return response
 
         # injector
         needed = fanstatic.init_needed(**self.config)
