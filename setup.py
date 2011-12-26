@@ -2,13 +2,19 @@ from setuptools import setup, find_packages
 
 version = '0.1'
 
+
+def description():
+    try:
+        return open('README.rst').read()
+    except:
+        return ''
+
 setup(name='pyramid_fanstatic',
       version=version,
-      description="pyramid tweens for fanstatic",
-      long_description="""\
-""",
+      description="pyramid tween for fanstatic",
+      long_description=description(),
       classifiers=[],
-      keywords='',
+      keywords='pyramid fanstatic js css',
       author='Gael Pasgrimaud',
       author_email='gael@gawel.org',
       url='',

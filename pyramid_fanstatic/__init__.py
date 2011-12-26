@@ -8,7 +8,7 @@ log = logging.getLogger(__name__)
 
 
 def fanstatic_config(config, prefix='fanstatic.'):
-    cfg = {'publisher_signature': 'fanstatic'}
+    cfg = {'publisher_signature': fanstatic.DEFAULT_SIGNATURE}
     for k, v in config.items():
         if k.startswith(prefix):
             cfg[k[len(prefix):]] = v
