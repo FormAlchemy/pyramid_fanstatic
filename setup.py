@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.2'
+version = '0.3'
 
 
 def description():
@@ -35,5 +35,7 @@ setup(name='pyramid_fanstatic',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [pyramid.scaffold]
+      pyramid_fanstatic=pyramid_fanstatic.scaffolds:PyramidFanstaticTemplate
       """,
       )

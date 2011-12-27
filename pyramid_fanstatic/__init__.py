@@ -3,6 +3,7 @@ from fanstatic.config import convert_config
 from fanstatic.publisher import Publisher
 import fanstatic
 import logging
+import os
 
 log = logging.getLogger(__name__)
 
@@ -64,3 +65,29 @@ def tween_factory(handler, registry):
 
 def includeme(config):
     config.add_tween('pyramid_fanstatic.tween_factory')
+
+
+def file_callback(dirname, exts=('.less', '.coffee')):
+    """Helper to monitor static resources"""
+    for var, script in (('LESSC', 'lessc'),):
+        if var not in os.environ:
+            for dirname in (os.path.join(os.getcwd(), 'bin'),
+                            os.path.expanduser('~/bin'),
+                            '/usr/local/bin',
+                            '/usr/bin'):
+                    binary = os.path.join(dirname, script)
+                    if os.path.isfile(binary):
+                        os.environ[var] = binary
+                        break
+        if var not in os.environ:
+            print(("Can't find a lessc %s binary" % script))
+
+    def callback():
+        resources = []
+        for root, dirnames, filenames in os.walk(dirname):
+            for filename in filenames:
+                dummy, ext = os.path.splitext(filename)
+                if ext in exts:
+                    resources.append(os.path.join(root, filename))
+        return resources
+    return callback

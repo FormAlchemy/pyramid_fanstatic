@@ -3,10 +3,28 @@ pyramid_fanstatic
 
 This package provide a `Pyramid tween
 <http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/hooks.html#registering-tweens>`_
-for  `fanstatic <http://readthedocs.org/docs/fanstatic>`_.
+for  `fanstatic <http://readthedocs.org/docs/fanstatic>`_ and a pyramid scaffold.
 
-Usage
------
+Scaffold
+--------
+
+Just run::
+
+    $ pcreate -s starter -s pyramid_fanstatic myproject
+
+Or::
+
+    $ pcreate -s pyramid_fanstatic myexistingproject
+
+if you want to add ``pyramid_fanstatic`` to an existing project.
+
+Then read ``README_FANSTATIC.txt``
+
+Fanstatic library definition is added to ``resources.py``. Resources are
+located in the ``resources/`` directory.
+
+Tween usage
+-----------
 
 You can use all `fanstatic options
 <http://readthedocs.org/docs/fanstatic/en/latest/configuration.html>`_ in your
@@ -15,6 +33,11 @@ You can use all `fanstatic options
     [app:main]
     ...
     fanstatic.publisher_signature = fanstatic
+
+You should add at least those two options::
+
+    fanstatic.bottom = true
+    fanstatic.debug = true # in development.ini
 
 Then include ``pyramid_fanstatic`` in your ``__init__.py``::
 
