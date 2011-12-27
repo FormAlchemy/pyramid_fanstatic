@@ -20,7 +20,7 @@ Add some requirements to your setup.py::
                 ]
 
 
-Also add those entry points to the same file::
+Also add those entry points to the same file bellow the paste.app_factory::
 
       # Fanstatic resource library
       [fanstatic.libraries]
@@ -30,7 +30,7 @@ Also add those entry points to the same file::
       [console_scripts]
       pserve-fanstatic = {{package}}.resources:pserve
 
-You also need to add pyramid_fanstatic tween to your applition. Add the
+You also need to add pyramid_fanstatic tween to your application. Add the
 following to your __init__.py file::
 
     config.include('pyramid_fanstatic')
