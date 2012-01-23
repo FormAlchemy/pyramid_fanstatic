@@ -46,15 +46,22 @@ class TestTween(unittest.TestCase):
 
 class TestCustomConfig(unittest.TestCase):
 
+    _custom_config = {
+            'fanstatic.publisher_signature': 'custom_sign',
+    }
+
     def setUp(self):
         self.config = testing.setUp()
-        self.config.registry.settings.update({
-            'fanstatic.publisher_signature': 'custom_sign',
-        })
+        self.config.registry.settings.update(self._custom_config)
         self.config.include("pyramid_fanstatic")
         self.config.add_route('home', '/')
         self.config.add_view(route_name='home', view=home)
         self.app = TestApp(self.config.make_wsgi_app())
+
+    def tearDown(self):
+        testing.tearDown()
+
+class TestCustomConfigPublisherSignature(TestCustomConfig):
 
     def test_injector(self):
         resp = self.app.get('/')
@@ -65,5 +72,3 @@ class TestCustomConfig(unittest.TestCase):
         resp = self.app.get('/custom_sign/jquery/jquery.js')
         resp.mustcontain('window.jQuery = window.$ = jQuery;')
 
-    def tearDown(self):
-        testing.tearDown()
