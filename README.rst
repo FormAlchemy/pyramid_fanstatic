@@ -43,4 +43,16 @@ Then include ``pyramid_fanstatic`` in your ``__init__.py``::
 
     config.include('pyramid_fanstatic')
 
+Base URLs for resources
+^^^^^^^^^^^^^^^^^^^^^^^
 
+By default, resource URLs from Fanstatic come served at in the script root and
+Fanstatic provides its ``base_url`` option to set a URL prefix for all 
+resource URLs. You can utilise this option statically using the following::
+
+    [app:main]
+    ...
+    fanstatic.base_url = https://example.com/myapp
+
+Take note that the URL should not have a trailing slash - Fanstatic has 
+resources URLs that feature a ``/`` prefix already.
