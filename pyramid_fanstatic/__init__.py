@@ -4,6 +4,8 @@ from fanstatic.publisher import Publisher
 import fanstatic
 import logging
 import os
+import wsgiref.util
+from pyramid.settings import asbool
 
 log = logging.getLogger(__name__)
 
@@ -18,6 +20,8 @@ def fanstatic_config(config, prefix='fanstatic.'):
 
 class Tween(object):
     def __init__(self, handler, config):
+        self.use_application_uri = asbool(
+            config.pop('fanstatic.use_application_uri', False))
         self.config = fanstatic_config(config)
         self.handler = handler
         self.publisher = Publisher(fanstatic.get_library_registry())
@@ -41,6 +45,10 @@ class Tween(object):
 
         # injector
         needed = fanstatic.init_needed(**self.config)
+        if self.use_application_uri and not needed.has_base_url():
+            base_url = wsgiref.util.application_uri(request.environ)
+            # remove trailing slash for fanstatic
+            needed.set_base_url(base_url.rstrip('/'))
         request.environ[fanstatic.NEEDED] = needed
 
         response = self.handler(request)
