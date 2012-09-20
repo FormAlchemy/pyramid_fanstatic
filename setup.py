@@ -5,7 +5,7 @@ version = '0.5.dev0'
 
 def description():
     try:
-        return open('README.rst').read()
+        return open('README.rst').read() + '\n' + open('CHANGES.rst').read()
     except:
         return ''
 
