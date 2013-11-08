@@ -11,7 +11,10 @@ log = logging.getLogger(__name__)
 
 
 def fanstatic_config(config, prefix='fanstatic.'):
-    cfg = {'publisher_signature': fanstatic.DEFAULT_SIGNATURE}
+    cfg = {
+        'publisher_signature': fanstatic.DEFAULT_SIGNATURE,
+        'injector': 'topbottom',
+    }
     for k, v in config.items():
         if k.startswith(prefix):
             cfg[k[len(prefix):]] = v
@@ -27,6 +30,13 @@ class Tween(object):
         self.publisher = Publisher(fanstatic.get_library_registry())
         self.publisher_signature = self.config.get('publisher_signature')
         self.trigger = '/%s/' % self.publisher_signature
+        injector_name = self.config.pop('injector')
+        self.injector = None
+        registry = fanstatic.registry
+        if hasattr(registry, 'InjectorRegistry'):
+            injector_factory = registry.InjectorRegistry.instance().get(
+                injector_name)
+            self.injector = injector_factory(self.config)
 
     def __call__(self, request):
 
@@ -60,7 +70,11 @@ class Tween(object):
             return response
 
         if needed.has_resources():
-            result = needed.render_topbottom_into_html(response.body)
+            if self.injector is not None:
+                result = self.injector(response.body,
+                                       needed, request, response)
+            else:
+                result = needed.render_topbottom_into_html(response.body)
             response.body = ''
             response.write(result)
         fanstatic.del_needed()

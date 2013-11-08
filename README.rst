@@ -36,7 +36,8 @@ You can use all `fanstatic options
 
 You should add at least those two options::
 
-    fanstatic.bottom = true
+    fanstatic.bottom = true         # fanstatic < 0.9
+    fanstatic.injector = topbottom  # fanstatic > 0.9
     fanstatic.debug = true # in development.ini
 
 Then include ``pyramid_fanstatic`` in your ``__init__.py``::

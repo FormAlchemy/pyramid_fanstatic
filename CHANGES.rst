@@ -4,7 +4,7 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- No changes yet.
+- Support fanstatic > 1.0 with backward compat
 
 
 0.4 (2012-09-21)
