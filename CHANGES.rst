@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5 (unreleased)
+0.5 (2013-11-08)
 ----------------
 
 - Support fanstatic > 1.0 with backward compat
