@@ -75,7 +75,7 @@ class Tween(object):
                                        needed, request, response)
             else:
                 result = needed.render_topbottom_into_html(response.body)
-            response.body = ''
+            response.text = ''
             response.write(result)
         fanstatic.del_needed()
         return response
