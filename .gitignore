@@ -1,0 +1,17 @@
+*.egg-info
+*.pyc
+*.swp
+*~
+./dist
+.DS_Store
+.cache
+.coverage
+.installed.cfg
+.tox
+bin
+develop-eggs
+doc/_build
+eggs
+htmlcov
+parts
+venv
