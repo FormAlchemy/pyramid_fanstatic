@@ -3,25 +3,23 @@ from setuptools import setup, find_packages
 version = '0.6.dev0'
 
 
-def description():
-    try:
-        return open('README.rst').read() + '\n' + open('CHANGES.rst').read()
-    except:
-        return ''
-
 setup(name='pyramid_fanstatic',
       version=version,
       description="pyramid tween for fanstatic",
-      long_description=description(),
+      long_description=(
+          open('README.rst').read()
+          + '\n'
+          + open('CHANGES.rst').read()
+      ),
       classifiers=[
-        "Intended Audience :: Developers",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 2 :: Only",
-        "Framework :: Pylons",
-        "Topic :: Internet :: WWW/HTTP :: WSGI",
-        "License :: OSI Approved :: MIT License",
+          "Intended Audience :: Developers",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2",
+          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 2 :: Only",
+          "Framework :: Pylons",
+          "Topic :: Internet :: WWW/HTTP :: WSGI",
+          "License :: OSI Approved :: MIT License",
       ],
       keywords='pyramid fanstatic js css',
       author='Gael Pasgrimaud',

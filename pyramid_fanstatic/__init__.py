@@ -100,10 +100,10 @@ def file_callback(dirname, exts=('.less', '.coffee')):
                             os.path.expanduser('~/bin'),
                             '/usr/local/bin',
                             '/usr/bin'):
-                    binary = os.path.join(dirname, script)
-                    if os.path.isfile(binary):
-                        os.environ[var] = binary
-                        break
+                binary = os.path.join(dirname, script)
+                if os.path.isfile(binary):
+                    os.environ[var] = binary
+                    break
         if var not in os.environ:
             print(("Can't find a lessc %s binary" % script))
 
