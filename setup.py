@@ -16,6 +16,9 @@ setup(name='pyramid_fanstatic',
       classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 2 :: Only",
         "Framework :: Pylons",
         "Topic :: Internet :: WWW/HTTP :: WSGI",
         "License :: OSI Approved :: MIT License",
@@ -33,6 +36,12 @@ setup(name='pyramid_fanstatic',
           'pyramid',
           'fanstatic',
       ],
+      extras_require={
+          "test": [
+              "js.jquery == 1.9.1",  # We test on specific file names.
+              "webtest",
+          ],
+      },
       entry_points="""
       # -*- Entry points: -*-
       [pyramid.scaffold]

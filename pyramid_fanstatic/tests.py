@@ -3,8 +3,8 @@
 import unittest
 
 from pyramid import testing
-from webtest import TestApp
 from js.jquery import jquery
+import webtest
 import fanstatic
 
 
@@ -30,7 +30,7 @@ class TestTween(unittest.TestCase):
         self.config.include("pyramid_fanstatic")
         self.config.add_route('home', '/')
         self.config.add_view(route_name='home', view=home)
-        self.app = TestApp(self.config.make_wsgi_app())
+        self.app = webtest.TestApp(self.config.make_wsgi_app())
 
     def test_injector(self):
         resp = self.app.get('/')
@@ -57,7 +57,7 @@ class TestCustomConfig(unittest.TestCase):
         self.config.include("pyramid_fanstatic")
         self.config.add_route('home', '/')
         self.config.add_view(route_name='home', view=home)
-        self.app = TestApp(self.config.make_wsgi_app())
+        self.app = webtest.TestApp(self.config.make_wsgi_app())
 
     def tearDown(self):
         testing.tearDown()
@@ -88,8 +88,9 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
     def setUp(self):
         """Set up and add dummy route to webtest application."""
         super(TestCustomConfigUseApplicationUri, self).setUp()
-        self.config.add_route('dummy', '/subdir/page', view=home) #dummy route
-        self.app = TestApp(self.config.make_wsgi_app())
+        self.config.add_route('dummy', '/subdir/page')
+        self.config.add_view(route_name='dummy', view=home)  # dummy route
+        self.app = webtest.TestApp(self.config.make_wsgi_app())
 
     def test_base_url_is_set(self):
         """Ensure that Fanstatic has a base url set after a request."""
