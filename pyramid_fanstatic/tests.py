@@ -3,8 +3,8 @@
 import unittest
 
 from pyramid import testing
-from webtest import TestApp
 from js.jquery import jquery
+import webtest
 import fanstatic
 
 
@@ -30,7 +30,7 @@ class TestTween(unittest.TestCase):
         self.config.include("pyramid_fanstatic")
         self.config.add_route('home', '/')
         self.config.add_view(route_name='home', view=home)
-        self.app = TestApp(self.config.make_wsgi_app())
+        self.app = webtest.TestApp(self.config.make_wsgi_app())
 
     def test_injector(self):
         resp = self.app.get('/')
@@ -48,7 +48,7 @@ class TestTween(unittest.TestCase):
 class TestCustomConfig(unittest.TestCase):
 
     _custom_config = {
-            'fanstatic.publisher_signature': 'custom_sign',
+        'fanstatic.publisher_signature': 'custom_sign',
     }
 
     def setUp(self):
@@ -57,10 +57,11 @@ class TestCustomConfig(unittest.TestCase):
         self.config.include("pyramid_fanstatic")
         self.config.add_route('home', '/')
         self.config.add_view(route_name='home', view=home)
-        self.app = TestApp(self.config.make_wsgi_app())
+        self.app = webtest.TestApp(self.config.make_wsgi_app())
 
     def tearDown(self):
         testing.tearDown()
+
 
 class TestCustomConfigPublisherSignature(TestCustomConfig):
 
@@ -72,6 +73,7 @@ class TestCustomConfigPublisherSignature(TestCustomConfig):
     def test_publisher(self):
         resp = self.app.get('/custom_sign/jquery/jquery.js')
         resp.mustcontain('window.jQuery = window.$ = jQuery;')
+
 
 class TestCustomConfigUseApplicationUri(TestCustomConfig):
     """Test specifying use of application URI for Fanstatic resources.
@@ -88,8 +90,9 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
     def setUp(self):
         """Set up and add dummy route to webtest application."""
         super(TestCustomConfigUseApplicationUri, self).setUp()
-        self.config.add_route('dummy', '/subdir/page', view=home) #dummy route
-        self.app = TestApp(self.config.make_wsgi_app())
+        self.config.add_route('dummy', '/subdir/page')
+        self.config.add_view(route_name='dummy', view=home)  # dummy route
+        self.app = webtest.TestApp(self.config.make_wsgi_app())
 
     def test_base_url_is_set(self):
         """Ensure that Fanstatic has a base url set after a request."""
@@ -99,8 +102,7 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
 
     def test_base_url_complex(self):
         """Check resource URLs generated for a complex environ."""
-
-        #http://example.com:8080/exampleapp/subdir/page?foo=bar
+        # http://example.com:8080/exampleapp/subdir/page?foo=bar
         environ = {
             'wsgi.url_scheme': 'https',
             'HTTP_HOST': 'example.com:8080',
@@ -117,8 +119,7 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
 
     def test_base_url_simple(self):
         """Check resource URLs generated for a simple environ."""
-
-        #https://example.com/exampleapp/
+        # https://example.com/exampleapp/
         environ = {
             'wsgi.url_scheme': 'http',
             'HTTP_HOST': '',
@@ -131,6 +132,7 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
                           'fanstatic/jquery/jquery.js"></script>'))
         self.assertNotIn(':%s' % environ['SERVER_PORT'], resp.body)
 
+
 class TestCustomConfigUseApplicationUriPrecendence(TestCustomConfig):
     """Test precedence of use of application URI for Fanstatic resources.
     """
@@ -142,7 +144,6 @@ class TestCustomConfigUseApplicationUriPrecendence(TestCustomConfig):
 
     def test_option_precendence(self):
         """Check resource URLs to ensure ``base_url`` takes precendence."""
-
         environ = {
             'wsgi.url_scheme': 'http',
             'HTTP_HOST': 'myexamplehost.com:80',
@@ -152,4 +153,3 @@ class TestCustomConfigUseApplicationUriPrecendence(TestCustomConfig):
                           'src="https://example.com:1234/exampleapp/'
                           'fanstatic/jquery/jquery.js"></script>'))
         self.assertNotIn(environ['HTTP_HOST'], resp.body)
-
