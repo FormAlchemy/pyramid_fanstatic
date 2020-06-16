@@ -4,7 +4,7 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for Python 3.7 and 3.8.
 
 
 0.5 (2013-11-08)

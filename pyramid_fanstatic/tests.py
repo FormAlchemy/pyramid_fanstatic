@@ -11,7 +11,7 @@ import fanstatic
 def home(request):
     resp = request.response
     resp.content_type = 'text/html'
-    resp.body = '''\
+    resp.body = b'''
 <html>
 <head>
 </head>
@@ -114,8 +114,8 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
         resp.mustcontain(('<script type="text/javascript" '
                           'src="https://example.com:8080/exampleapp/'
                           'fanstatic/jquery/jquery.js"></script>'))
-        self.assertNotIn(environ['PATH_INFO'], resp.body)
-        self.assertNotIn(environ['QUERY_STRING'], resp.body)
+        self.assertNotIn(environ['PATH_INFO'].encode('utf8'), resp.body)
+        self.assertNotIn(environ['QUERY_STRING'].encode('utf8'), resp.body)
 
     def test_base_url_simple(self):
         """Check resource URLs generated for a simple environ."""
@@ -130,7 +130,8 @@ class TestCustomConfigUseApplicationUri(TestCustomConfig):
         resp.mustcontain(('<script type="text/javascript" '
                           'src="http://example.com/'
                           'fanstatic/jquery/jquery.js"></script>'))
-        self.assertNotIn(':%s' % environ['SERVER_PORT'], resp.body)
+        self.assertNotIn(b':' + environ['SERVER_PORT'].encode('utf8'),
+                         resp.body)
 
 
 class TestCustomConfigUseApplicationUriPrecendence(TestCustomConfig):
@@ -152,4 +153,4 @@ class TestCustomConfigUseApplicationUriPrecendence(TestCustomConfig):
         resp.mustcontain(('<script type="text/javascript" '
                           'src="https://example.com:1234/exampleapp/'
                           'fanstatic/jquery/jquery.js"></script>'))
-        self.assertNotIn(environ['HTTP_HOST'], resp.body)
+        self.assertNotIn(environ['HTTP_HOST'].encode('utf8'), resp.body)

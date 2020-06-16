@@ -78,7 +78,7 @@ class Tween(object):
             try:
                 response.text = ''
             except TypeError:
-                response.body = ''
+                response.body = b''
             response.write(result)
         fanstatic.del_needed()
         return response
