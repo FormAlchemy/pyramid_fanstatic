@@ -4,7 +4,15 @@ Changelog
 0.6 (unreleased)
 ----------------
 
-- Add support for Python 3.7 and 3.8.
+Features
+********
+
+- Add support for Python 3.7 and 3.8. [sallner, gotcha]
+
+Other
+*****
+
+- Remove zc.buildout and nosetest infratructure in favour of tox and pytest.
 
 
 0.5 (2013-11-08)
