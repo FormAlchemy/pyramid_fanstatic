@@ -5,12 +5,12 @@ Changelog
 ----------------
 
 Features
-********
+^^^^^^^^
 
 - Add support for Python 3.7 and 3.8. [sallner, gotcha]
 
 Other
-*****
+^^^^^
 
 - Remove zc.buildout and nosetest infratructure in favour of tox and pytest.
 
