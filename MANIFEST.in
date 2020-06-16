@@ -2,6 +2,5 @@ recursive-include pyramid_fanstatic *_tmpl
 
 include *.py
 include *.rst
-include buildout.cfg
 include pytest.ini
 include tox.ini
